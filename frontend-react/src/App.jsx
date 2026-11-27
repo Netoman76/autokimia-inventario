@@ -1,3 +1,4 @@
+
 /*
     Componente principal de la aplicación
     Sistema de Inventario Autokimia
@@ -5,6 +6,13 @@
 
 // Importamos los Hooks de React
 import { useState, useCallback } from "react";
+
+// Importamos los componentes de navegación
+import {
+    Routes,
+    Route,
+    Navigate
+} from "react-router";
 
 // Importamos las páginas de la aplicación
 import Login from "./pages/Login";
@@ -59,31 +67,79 @@ function App() {
 
 
     // ============================================
-    // INTERFAZ PRINCIPAL
+    // CONFIGURACION DE RUTAS
     // ============================================
 
     return (
 
-        <>
+        <Routes>
 
-            {/* Verificamos si existe una sesión */}
+            {/* Ruta principal */}
+            <Route
+                path="/"
+                element={
+                    <Navigate
+                        to={usuario ? "/inventario" : "/login"}
+                        replace
+                    />
+                }
+            />
 
-            {usuario ? (
+            {/* Ruta pública de inicio de sesión */}
+            <Route
+                path="/login"
+                element={
+                    usuario ? (
 
-                <Inventario
-                    token={token}
-                    onLogout={cerrarSesion}
-                />
+                        <Navigate
+                            to="/inventario"
+                            replace
+                        />
 
-            ) : (
+                    ) : (
 
-                <Login
-                    onLogin={iniciarSesion}
-                />
+                        <Login
+                            onLogin={iniciarSesion}
+                        />
 
-            )}
+                    )
+                }
+            />
 
-        </>
+            {/* Ruta protegida del inventario */}
+            <Route
+                path="/inventario"
+                element={
+                    usuario ? (
+
+                        <Inventario
+                            token={token}
+                            onLogout={cerrarSesion}
+                        />
+
+                    ) : (
+
+                        <Navigate
+                            to="/login"
+                            replace
+                        />
+
+                    )
+                }
+            />
+
+            {/* Control de rutas inexistentes */}
+            <Route
+                path="*"
+                element={
+                    <Navigate
+                        to={usuario ? "/inventario" : "/login"}
+                        replace
+                    />
+                }
+            />
+
+        </Routes>
 
     );
 
