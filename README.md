@@ -659,3 +659,91 @@ Entrega: Proyecto Final.
 Proyecto: Sistema de Inventario Autokimia.
 
 Año: 2026.
+
+---
+
+## Mejora final: implementación de React Router
+
+### Descripción
+
+Se incorporó React Router al frontend del Sistema de
+Inventario Autokimia para administrar la navegación
+entre las diferentes páginas de la aplicación.
+
+Esta implementación permite definir rutas públicas,
+rutas protegidas y redireccionamientos automáticos
+según el estado de autenticación del usuario.
+
+### Tecnología incorporada
+
+- React Router 7.18.7.
+- BrowserRouter.
+- Routes.
+- Route.
+- Navigate.
+
+### Rutas de la aplicación
+
+| Ruta | Descripción | Acceso |
+|---|---|---|
+| / | Redireccionamiento automático | Público |
+| /login | Inicio de sesión | Público |
+| /inventario | Gestión de inventario | Autenticado |
+| * | Control de rutas inexistentes | Público |
+
+### Protección de rutas
+
+La aplicación utiliza el token JWT para consultar
+el estado de autenticación del usuario.
+
+Cuando un usuario no cuenta con una sesión válida,
+el sistema lo redirecciona automáticamente a la
+pantalla de inicio de sesión.
+
+El backend continúa siendo responsable de verificar
+la firma, vigencia y permisos del token JWT.
+
+Los permisos de administrador y usuario se conservan
+de acuerdo con el rol asignado.
+
+### Administración de sesiones
+
+El token JWT se almacena temporalmente en la memoria
+del frontend mediante el Hook useState de React.
+
+Al cerrar sesión o recargar completamente la página,
+el token se elimina de la memoria y el usuario debe
+autenticarse nuevamente.
+
+### Archivos modificados
+
+- frontend-react/src/main.jsx
+- frontend-react/src/App.jsx
+- frontend-react/package.json
+- frontend-react/package-lock.json
+
+### Pruebas de funcionamiento
+
+Se realizaron pruebas de:
+
+- Inicio de sesión con credenciales correctas.
+- Rechazo de credenciales incorrectas.
+- Acceso a rutas protegidas sin autenticación.
+- Redireccionamiento entre páginas.
+- Control de acceso según el rol del usuario.
+- Cierre de sesión.
+- Actualización de la página.
+- Compilación del frontend.
+
+### Resultado
+
+La incorporación de React Router permite contar
+con una navegación organizada y un control de acceso
+a las páginas de la aplicación.
+
+Se conservan las funcionalidades de gestión de
+productos, búsqueda, filtros, paginación y
+conversión de monedas.
+
+La compilación de producción se realizó
+satisfactoriamente mediante Vite.
