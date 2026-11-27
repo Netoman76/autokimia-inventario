@@ -12,29 +12,102 @@ const db = require("../config/db");
 // FUNCIÓN 1: CONSULTAR PRODUCTOS (READ)
 // ==========================================
 
-const obtenerProductos = async (req, res) => {
+const obtenerProductos = async (req, res, next) => {
 
     try {
 
-        // Consultamos todos los productos en MySQL
-        const [productos] = await db.query(
-            "SELECT * FROM productos"
+        // Recuperamos los parámetros validados por el middleware
+        const {
+            nombre,
+            precioMin,
+            precioMax,
+            paginaActual,
+            limiteActual,
+            offset
+        } = req.consultaValidada;
+
+        // Creamos las condiciones iniciales de búsqueda
+        let condiciones = " WHERE 1 = 1";
+
+        // Arreglo para almacenar los parámetros
+        const parametros = [];
+
+        // Agregamos el filtro por nombre
+        if (nombre) {
+
+            condiciones += " AND nombre LIKE ?";
+            parametros.push(`%${nombre}%`);
+
+        }
+
+        // Agregamos el filtro por precio mínimo
+        if (precioMin !== undefined) {
+
+            condiciones += " AND precio >= ?";
+            parametros.push(precioMin);
+
+        }
+
+        // Agregamos el filtro por precio máximo
+        if (precioMax !== undefined) {
+
+            condiciones += " AND precio <= ?";
+            parametros.push(precioMax);
+
+        }
+
+        // Contamos los productos que coinciden con los filtros
+        const sqlTotal =
+            "SELECT COUNT(*) AS total FROM productos" +
+            condiciones;
+
+        const [resultadoTotal] = await db.execute(
+            sqlTotal,
+            parametros
         );
 
-        // Enviamos los productos al navegador
-        res.json(productos);
+        // Obtenemos el total de productos
+        const totalProductos = Number(resultadoTotal[0].total);
 
-    } catch (error) {
+        // Calculamos el total de páginas
+        const totalPaginas = Math.ceil(
+            totalProductos / limiteActual
+        );
 
-        // Mostramos el error en la terminal
-        console.error("Error al consultar:", error.message);
+        // Construimos la consulta con paginación
+        const sql =
+            "SELECT * FROM productos" +
+            condiciones +
+            " ORDER BY id ASC LIMIT ? OFFSET ?";
 
-        // Enviamos un mensaje de error
-        res.status(500).json({
-            mensaje: "Error al consultar productos"
+        // Agregamos los parámetros de paginación
+        const parametrosPaginacion = [
+            ...parametros,
+            limiteActual,
+            offset
+        ];
+
+        // Ejecutamos la consulta en MySQL
+        const [productos] = await db.execute(
+            sql,
+            parametrosPaginacion
+        );
+
+        // Enviamos los resultados al cliente
+        res.json({
+            pagina: paginaActual,
+            limite: limiteActual,
+            totalProductos: totalProductos,
+            totalPaginas: totalPaginas,
+            productos: productos
         });
 
-    }
+        } catch (error) {
+
+        // Enviamos el error al middleware centralizado
+        next(error);
+
+        }
 
 };
 
@@ -43,7 +116,7 @@ const obtenerProductos = async (req, res) => {
 // FUNCIÓN 2: REGISTRAR PRODUCTO (CREATE)
 // ==========================================
 
-const crearProducto = async (req, res) => {
+const crearProducto = async (req, res, next) => {
 
     try {
 
@@ -96,13 +169,8 @@ const crearProducto = async (req, res) => {
 
     } catch (error) {
 
-        // Mostramos el error en la terminal
-        console.error("Error al registrar:", error.message);
-
-        // Respondemos con un mensaje de error
-        res.status(500).json({
-            mensaje: "Error al registrar el producto"
-        });
+    // Enviamos el error al middleware centralizado
+    next(error);
 
     }
 
@@ -115,7 +183,7 @@ const crearProducto = async (req, res) => {
   ===========================================================
 */
 
-const actualizarProducto = async (req, res) => {
+const actualizarProducto = async (req, res, next) => {
 
     try {
 
@@ -184,17 +252,12 @@ const actualizarProducto = async (req, res) => {
             id: id
         });
 
-    } catch (error) {
+        } catch (error) {
 
-        // Mostramos el error en la terminal
-        console.error("Error al actualizar:", error.message);
+           // Enviamos el error al middleware centralizado
+           next(error);
 
-        // Enviamos una respuesta de error
-        res.status(500).json({
-            mensaje: "Error al actualizar el producto"
-        });
-
-    }
+        }
 
 };
 
@@ -205,7 +268,7 @@ const actualizarProducto = async (req, res) => {
   =========================================================================================
 */
 
-const eliminarProducto = async (req, res) => {
+const eliminarProducto = async (req, res, next) => {
 
     try {
 
@@ -244,13 +307,8 @@ const eliminarProducto = async (req, res) => {
 
     } catch (error) {
 
-        // Mostramos el error en la terminal
-        console.error("Error al eliminar:", error.message);
-
-        // Enviamos una respuesta de error
-        res.status(500).json({
-            mensaje: "Error al eliminar el producto"
-        });
+    // Enviamos el error al middleware centralizado
+    next(error);
 
     }
 

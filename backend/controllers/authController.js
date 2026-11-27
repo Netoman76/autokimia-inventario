@@ -18,7 +18,7 @@ const jwt = require("jsonwebtoken");
 // FUNCIÓN 1: REGISTRAR UN USUARIO
 // ========================================
 
-const registrarUsuario = async (req, res) => {
+const registrarUsuario = async (req, res, next) => {
 
     try {
 
@@ -76,24 +76,12 @@ const registrarUsuario = async (req, res) => {
             id: resultado.insertId
         });
 
-    } catch (error) {
+        } catch (error) {
 
-        // Manejamos el caso de un usuario duplicado
-        if (error.code === "ER_DUP_ENTRY") {
-            return res.status(409).json({
-                mensaje: "El usuario ya existe"
-            });
+        // Enviamos el error al middleware centralizado
+         next(error);
+
         }
-
-        // Mostramos el error en la terminal
-        console.error("Error al registrar usuario:", error.message);
-
-        // Enviamos un mensaje de error al cliente
-        res.status(500).json({
-            mensaje: "Error al registrar usuario"
-        });
-
-    }
 
 };
 
@@ -104,7 +92,7 @@ const registrarUsuario = async (req, res) => {
   Verifica el usuario y genera un token JWT.
 */
 
-const iniciarSesion = async (req, res) => {
+const iniciarSesion = async (req, res, next) => {
 
     try {
 
@@ -127,8 +115,8 @@ const iniciarSesion = async (req, res) => {
 
         // Buscamos al usuario en MySQL
         const [usuarios] = await db.execute(
-            "SELECT id, nombre_usuario, password_hash FROM usuarios WHERE nombre_usuario = ?",
-            [nombre_usuario]
+          "SELECT id, nombre_usuario, password_hash, rol FROM usuarios WHERE nombre_usuario = ?",
+          [nombre_usuario]
         );
 
         // Comprobamos si el usuario existe
@@ -167,17 +155,19 @@ const iniciarSesion = async (req, res) => {
         }
 
         // Generamos el token JWT del usuario
+        // Generamos el token JWT incluyendo el rol
         const token = jwt.sign(
             {
-                id: usuario.id,
-                nombre_usuario: usuario.nombre_usuario
+             id: usuario.id,
+             nombre_usuario: usuario.nombre_usuario,
+             rol: usuario.rol
             },
-            process.env.JWT_SECRET,
+             process.env.JWT_SECRET,
             {
-                expiresIn: "1h",
-                algorithm: "HS256"
-            }
-        );
+              expiresIn: "1h",
+              algorithm: "HS256"
+             }
+             );
 
         // Enviamos una respuesta de inicio de sesión correcto
         res.json({
@@ -185,17 +175,12 @@ const iniciarSesion = async (req, res) => {
             token: token
         });
 
-    } catch (error) {
+        } catch (error) {
 
-        // Mostramos el error en la terminal
-        console.error("Error al iniciar sesión:", error.message);
+         // Enviamos el error al middleware centralizado
+            next(error);
 
-        // Enviamos una respuesta de error
-        res.status(500).json({
-            mensaje: "Error al iniciar sesión"
-        });
-
-    }
+        }
 
 };
 

@@ -26,8 +26,11 @@ const authRoutes = require("./routes/authRoutes");
 // Importamos path para trabajar con rutas de carpetas
 const path = require("path");
 
+// Importamos el middleware centralizado de errores
+const manejarErrores = require("./middleware/manejarErrores");
 
-
+// Importamos las rutas de monedas
+const monedasRoutes = require("./routes/monedasRoutes");
 
 
 // Creamos nuestra aplicación Express
@@ -44,6 +47,9 @@ app.use("/api/productos", productosRoutes);
 
 // Todas las rutas de autenticación comienzan con /api/auth
 app.use("/api/auth", authRoutes);
+
+// Registramos las rutas de monedas
+app.use("/api/monedas", monedasRoutes);
 
 // Permitimos que Express muestre los archivos del frontend
 app.use(express.static(
@@ -68,7 +74,7 @@ app.get("/api/salud", (req, res) => {
 //---------------------------------------------------------------------
 
 // Ruta temporal para probar la conexión a MySQL
-app.get("/api/db", async (req, res) => {
+app.get("/api/db", async (req, res, next) => {
 
     try {
 
@@ -83,23 +89,29 @@ app.get("/api/db", async (req, res) => {
             baseDatos: filas[0].baseDatos
         });
 
-    } catch (error) {
+       } catch (error) {
 
-        // Mostramos el error en la terminal
-        console.error("Error de MySQL:", error.message);
+         // Enviamos el error al middleware centralizado
+         next(error);
 
-        // Enviamos una respuesta de error
-        res.status(500).json({
-            mensaje: "No se pudo conectar a MySQL"
+         }
         });
 
-    }
-
-});
 //---------------------------------------------------------------------
 
 
+// Middleware para rutas de API inexistentes
+app.use("/api", (req, res) => {
 
+    // Respondemos cuando la ruta solicitada no existe
+    res.status(404).json({
+        mensaje: "Ruta no encontrada"
+    });
+
+});
+
+// Registramos el middleware centralizado de errores
+app.use(manejarErrores);
 
 
 // Iniciamos nuestro servidor

@@ -1,0 +1,878 @@
+/*
+    Estilos del inicio de sesión
+    Sistema de Inventario Autokimia
+*/
+
+/* Colores principales de Autokimia */
+:root {
+    --azul: #17366c;
+    --rojo: #cf202e;
+    --blanco: #ffffff;
+    --gris: #f0f3f8;
+}
+
+/* Contenedor de la pantalla de inicio de sesión */
+.login-contenedor {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--gris);
+}
+
+/* Tarjeta del formulario */
+.login-tarjeta {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--blanco);
+    padding: 35px;
+    border-radius: 12px;
+    border-top: 6px solid var(--rojo);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Nombre de la empresa */
+.login-logo {
+    color: var(--azul);
+    text-align: center;
+    font-size: 34px;
+    margin: 0;
+}
+
+/* Subtítulo del sistema */
+.login-subtitulo {
+    text-align: center;
+    color: #666666;
+    margin-bottom: 30px;
+}
+
+/* Título del formulario */
+.login-tarjeta h2 {
+    color: var(--azul);
+    text-align: center;
+}
+
+/* Organización del formulario */
+.login-tarjeta form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Etiquetas de los campos */
+.login-tarjeta label {
+    font-weight: bold;
+    color: var(--azul);
+}
+
+/* Campos de texto y contraseña */
+.login-tarjeta input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+}
+
+/* Campo seleccionado */
+.login-tarjeta input:focus {
+    outline: 2px solid var(--azul);
+    outline-offset: 1px;
+}
+
+/* Botón de inicio de sesión */
+.login-tarjeta button {
+    margin-top: 10px;
+    padding: 13px;
+    background-color: var(--azul);
+    color: var(--blanco);
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* Efecto al pasar el cursor */
+.login-tarjeta button:hover:not(:disabled) {
+    background-color: #234d8f;
+}
+
+/* Mensajes de error */
+.mensaje-error {
+    background-color: #ffe5e5;
+    color: #a40000;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Texto inferior de la tarjeta */
+.login-pie {
+    text-align: center;
+    color: #777777;
+    font-size: 12px;
+    margin-top: 25px;
+}
+
+/* Pantalla temporal del inventario */
+.inventario-temporal {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+/* Título de la pantalla temporal */
+.inventario-temporal h1 {
+    color: var(--azul);
+}
+
+/* Botón de cierre de sesión */
+.inventario-temporal button {
+    background-color: var(--rojo);
+    color: var(--blanco);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 480px) {
+    .login-tarjeta {
+        padding: 25px;
+    }
+
+    .login-logo {
+        font-size: 28px;
+    }
+}
+
+/* ============================================
+   ESTILOS DEL ENCABEZADO PRINCIPAL
+   ============================================ */
+
+/* Contenedor del encabezado */
+.encabezado {
+    background-color: var(--azul);
+    color: var(--blanco);
+    padding: 20px 30px;
+    border-bottom: 5px solid var(--rojo);
+}
+
+/* Organización del encabezado */
+.encabezado-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Nombre de la empresa */
+.encabezado h1 {
+    margin: 0;
+    font-size: 30px;
+    color: var(--blanco);
+}
+
+/* Subtítulo */
+.encabezado p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Información del usuario */
+.encabezado-usuario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Etiqueta del rol */
+.etiqueta-rol {
+    background-color: var(--blanco);
+    color: var(--azul);
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Botón para cerrar sesión */
+.btn-cerrar-sesion {
+    background-color: var(--rojo);
+    color: var(--blanco);
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* Efecto al pasar el cursor */
+.btn-cerrar-sesion:hover {
+    background-color: #aa1824;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+
+    .encabezado {
+        padding: 15px;
+    }
+
+    .encabezado h1 {
+        font-size: 24px;
+    }
+
+    .encabezado-principal {
+        align-items: flex-start;
+    }
+
+}
+
+/* ============================================
+   ESTILOS DE LA TABLA DE PRODUCTOS
+   ============================================ */
+
+/* Contenedor principal de la tabla */
+.tabla-contenedor {
+    background-color: var(--blanco);
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Título de la tabla */
+.tabla-contenedor h2 {
+    color: var(--azul);
+    margin-top: 0;
+}
+
+/* Permite desplazamiento horizontal */
+.tabla-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Configuración general de la tabla */
+.tabla-productos {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+/* Encabezados de las columnas */
+.tabla-productos th {
+    background-color: var(--azul);
+    color: var(--blanco);
+    text-align: left;
+    padding: 12px;
+}
+
+/* Celdas de la tabla */
+.tabla-productos td {
+    padding: 12px;
+    border-bottom: 1px solid #dddddd;
+}
+
+/* Alternamos el color de las filas */
+.tabla-productos tbody tr:nth-child(even) {
+    background-color: #f5f7fa;
+}
+
+/* Resaltamos la fila seleccionada */
+.tabla-productos tbody tr:hover {
+    background-color: #e7edf7;
+}
+
+/* Contenedor de los botones */
+.acciones-producto {
+    display: flex;
+    gap: 8px;
+}
+
+/* Estilos compartidos de los botones */
+.btn-editar,
+.btn-eliminar {
+    color: var(--blanco);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+/* Botón editar */
+.btn-editar {
+    background-color: var(--azul);
+}
+
+/* Botón eliminar */
+.btn-eliminar {
+    background-color: var(--rojo);
+}
+
+/* Efectos al pasar el cursor */
+.btn-editar:hover {
+    background-color: #234d8f;
+}
+
+.btn-eliminar:hover {
+    background-color: #aa1824;
+}
+
+/* Mensaje cuando no existen productos */
+.sin-productos {
+    text-align: center;
+    padding: 25px;
+    background-color: #f5f7fa;
+    color: #777777;
+    border-radius: 6px;
+}
+
+/* Cantidad de productos mostrados */
+.total-productos {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 0;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+
+    .tabla-contenedor {
+        padding: 15px;
+    }
+
+    .tabla-productos th,
+    .tabla-productos td {
+        padding: 10px;
+    }
+
+}
+
+/* ============================================
+   ESTILOS DEL FORMULARIO DE PRODUCTOS
+   ============================================ */
+
+/* Contenedor principal */
+.formulario-producto {
+    background-color: var(--blanco);
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Título del formulario */
+.formulario-producto h2 {
+    color: var(--azul);
+    margin-top: 0;
+}
+
+/* Organización de los campos */
+.formulario-producto fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
+/* Etiquetas de los campos */
+.formulario-producto label {
+    color: var(--azul);
+    font-weight: bold;
+    display: block;
+}
+
+/* Campos de texto y descripción */
+.formulario-producto input,
+.formulario-producto textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+}
+
+/* Campo seleccionado */
+.formulario-producto input:focus,
+.formulario-producto textarea:focus {
+    outline: 2px solid var(--azul);
+    outline-offset: 1px;
+}
+
+/* Permitir ajustar la altura de la descripción */
+.formulario-producto textarea {
+    resize: vertical;
+}
+
+/* Organización de cantidad y precio */
+.campos-numericos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Separación de etiquetas numéricas */
+.campos-numericos label {
+    margin-bottom: 8px;
+}
+
+/* Contenedor de botones */
+.botones-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+/* Botón para guardar */
+.btn-guardar {
+    background-color: var(--azul);
+    color: var(--blanco);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* Botón para cancelar */
+.btn-cancelar {
+    background-color: #666666;
+    color: var(--blanco);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+}
+
+/* Efectos al pasar el cursor */
+.btn-guardar:hover:not(:disabled) {
+    background-color: #234d8f;
+}
+
+.btn-cancelar:hover:not(:disabled) {
+    background-color: #444444;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+
+    .formulario-producto {
+        padding: 15px;
+    }
+
+    .campos-numericos {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .botones-formulario {
+        flex-direction: column;
+    }
+
+    .botones-formulario button {
+        width: 100%;
+    }
+
+}
+
+/* ============================================
+   ESTILOS DE LA PAGINA PRINCIPAL DEL INVENTARIO
+   ============================================ */
+
+/* Contenedor general */
+.inventario {
+    min-height: 100vh;
+    width: 100%;
+    background-color: #eef1f6;
+}
+
+/* Contenido principal */
+.inventario-contenido {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px;
+}
+
+/* Título del inventario */
+.titulo-inventario {
+    color: var(--azul);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 26px;
+}
+
+/* Mensajes de operaciones satisfactorias */
+.mensaje-exito {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #16a34a;
+}
+
+/* Mensajes de error */
+.inventario .mensaje-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid var(--rojo);
+}
+
+/* Información para usuarios normales */
+.mensaje-informacion {
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid var(--azul);
+}
+
+/* Indicador de carga */
+.mensaje-cargando {
+    text-align: center;
+    background-color: var(--blanco);
+    color: var(--azul);
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+
+    .inventario-contenido {
+        padding: 15px;
+    }
+
+    .titulo-inventario {
+        font-size: 22px;
+    }
+
+}
+
+/* ==========================================
+   COMPONENTE DE FILTROS DE PRODUCTOS
+   ========================================== */
+
+/* Contenedor principal de los filtros */
+.filtros-productos {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Título de la sección */
+.filtros-productos h2,
+.filtros-productos h3 {
+    color: var(--azul);
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Distribución de los campos */
+.campos-filtros,
+.filtros-campos {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Etiquetas de los campos */
+.filtros-productos label {
+    display: block;
+    color: var(--azul);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Campos de búsqueda */
+.filtros-productos input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* Resaltamos el campo seleccionado */
+.filtros-productos input:focus {
+    outline: 2px solid var(--azul);
+    border-color: var(--azul);
+}
+
+/* Contenedor de los botones */
+.botones-filtros {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Botón buscar */
+.btn-buscar {
+    background-color: var(--azul);
+    color: #ffffff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Efecto al pasar el cursor */
+.btn-buscar:hover:not(:disabled) {
+    background-color: #244b85;
+}
+
+/* Botón limpiar filtros */
+.btn-limpiar-filtros {
+    background-color: #666666;
+    color: #ffffff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Efecto al pasar el cursor */
+.btn-limpiar-filtros:hover:not(:disabled) {
+    background-color: #444444;
+}
+
+/* Botones deshabilitados durante la consulta */
+.btn-buscar:disabled,
+.btn-limpiar-filtros:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+
+    .filtros-productos {
+        padding: 15px;
+    }
+
+    .campos-filtros,
+    .filtros-campos {
+        grid-template-columns: 1fr;
+    }
+
+    .botones-filtros {
+        flex-direction: column;
+    }
+
+    .botones-filtros button {
+        width: 100%;
+    }
+
+}
+
+/* ============================================
+   ESTILOS DEL COMPONENTE DE PAGINACION
+   ============================================ */
+
+/* Contenedor principal de la paginación */
+.paginacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    background-color: var(--blanco);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Información de los productos mostrados */
+.paginacion-informacion {
+    color: #555555;
+    font-size: 14px;
+}
+
+/* Contenedor de los controles */
+.paginacion-controles {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Etiquetas de paginación */
+.paginacion label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--azul);
+}
+
+/* Selector de productos por página */
+.paginacion select {
+    padding: 9px 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    background-color: var(--blanco);
+    color: var(--azul);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Botones Anterior y Siguiente */
+.paginacion button {
+    background-color: var(--azul);
+    color: var(--blanco);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Efecto al pasar el cursor */
+.paginacion button:hover:not(:disabled) {
+    background-color: #10254a;
+}
+
+/* Botones deshabilitados */
+.paginacion button:disabled {
+    background-color: #cccccc;
+    color: #777777;
+    cursor: not-allowed;
+}
+
+/* Información de la página actual */
+.paginacion-pagina {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--azul);
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+
+    .paginacion {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .paginacion-controles {
+        justify-content: center;
+    }
+
+    .paginacion button {
+        padding: 10px 12px;
+    }
+
+}
+
+/* ============================================
+   SELECTOR DE MONEDAS
+   ============================================ */
+
+/* Contenedor principal del selector */
+.selector-moneda {
+    background-color: var(--blanco);
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Título de la sección */
+.selector-moneda h2 {
+    color: var(--azul);
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Distribución de los elementos */
+.selector-moneda-contenido {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Etiquetas del selector */
+.selector-moneda label {
+    display: block;
+    color: var(--azul);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Lista desplegable de monedas */
+.selector-moneda select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    background-color: var(--blanco);
+    color: var(--azul);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Efecto al seleccionar el campo */
+.selector-moneda select:focus {
+    outline: none;
+    border-color: var(--azul);
+}
+
+/* Selector deshabilitado durante la carga */
+.selector-moneda select:disabled {
+    background-color: #eeeeee;
+    cursor: not-allowed;
+}
+
+/* Información del tipo de cambio */
+.info-tipo-cambio {
+    background-color: #f0f5fc;
+    border-left: 4px solid var(--azul);
+    padding: 15px;
+    border-radius: 6px;
+    color: var(--azul);
+}
+
+/* Textos de información */
+.info-tipo-cambio p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Nota sobre los precios originales */
+.nota-moneda {
+    font-size: 13px;
+    color: #666666;
+    margin-top: 15px;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+
+    .selector-moneda {
+        padding: 15px;
+    }
+
+    .selector-moneda-contenido {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+}
