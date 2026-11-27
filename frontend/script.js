@@ -2,7 +2,7 @@
 /*
   JAVASCRIPT DEL INVENTARIO AUTOKIMIA
 
-  Paso 45: Inicio de sesión con JWT
+  Inicio de sesión con JWT
 */
 
 // Guardaremos temporalmente el token del usuario
@@ -111,7 +111,7 @@ formLogin.addEventListener("submit", async (evento) => {
 
 
 /*===================================================================
-  PASO 46: CONSULTAR PRODUCTOS (READ)
+  CONSULTAR PRODUCTOS (READ)
   Mostramos los productos de MySQL en HTML
   ====================================================================
 */
@@ -337,7 +337,7 @@ celdaAcciones.appendChild(botonEliminar);
 }
 
 /*
-  PASO 49: CREAR Y ACTUALIZAR PRODUCTOS
+  CREAR Y ACTUALIZAR PRODUCTOS
   POST = Registrar un producto nuevo
   PUT  = Modificar un producto existente
 */
@@ -492,7 +492,7 @@ btnCancelar.addEventListener("click", () => {
 });
 
 /*
-  PASO 52: CERRAR SESIÓN
+  CERRAR SESIÓN
   Sistema de Inventario Autokimia
 */
 

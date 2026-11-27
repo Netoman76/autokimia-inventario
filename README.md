@@ -3,210 +3,659 @@
 
 ## 1. Descripción del proyecto
 
-El Sistema de Inventario Autokimia es una aplicación
-web desarrollada para administrar productos de un
-inventario.
+El Sistema de Inventario Autokimia es una aplicación web
+Full Stack desarrollada para administrar los productos
+de un inventario.
 
-Permite registrar, consultar, modificar y eliminar
-productos mediante una interfaz web sencilla.
+La aplicación permite registrar, consultar, modificar,
+eliminar, buscar y filtrar productos, mediante una
+interfaz gráfica desarrollada con React.
 
-La aplicación utiliza una arquitectura Fullstack,
-conectando el frontend, el backend y una base de datos
-MySQL.
+También incorpora autenticación de usuarios, control
+de acceso por roles, paginación de resultados e
+integración con una API externa para consultar tipos
+de cambio internacionales.
 
 Este proyecto se desarrolla como parte de la materia
-Desarrollo Fullstack de Tecmilenio.
+Desarrollo Full Stack de la Universidad Tecmilenio.
 
 ## 2. Objetivo
 
-Desarrollar una aplicación web que permita administrar
-productos de un inventario mediante operaciones CRUD,
-incorporando autenticación de usuarios y conexión
-a una base de datos relacional.
+Desarrollar una aplicación web funcional que permita
+administrar un inventario de productos mediante una
+arquitectura Full Stack, incorporando una base de
+datos relacional, seguridad, componentes reutilizables
+y servicios externos.
 
 ## 3. Tecnologías utilizadas
 
 ### Frontend
-- HTML5: estructura de la página.
-- CSS3: estilos y diseño visual.
-- JavaScript: interacción con el usuario y API REST.
+
+- React 19: desarrollo de interfaces gráficas.
+- Vite 8: servidor de desarrollo y compilación.
+- JavaScript: programación de funcionalidades.
+- JSX: creación de componentes de React.
+- HTML5: estructura de la aplicación.
+- CSS3: estilos y diseño adaptable.
+- Fetch API: comunicación con el backend.
+- Oxlint: análisis del código.
 
 ### Backend
+
 - Node.js: entorno de ejecución de JavaScript.
-- Express: servidor y rutas HTTP.
-- MySQL2: conexión entre Node.js y MySQL.
-- JWT: autenticación mediante tokens.
-- bcryptjs: almacenamiento seguro de contraseñas.
-- dotenv: configuración de variables de entorno.
-- CORS: configuración de solicitudes entre orígenes.
+- Express 5: servidor y administración de rutas HTTP.
+- MySQL2: comunicación con MySQL.
+- jsonwebtoken: autenticación mediante JWT.
+- bcryptjs: generación y verificación de hashes.
+- dotenv: administración de variables de entorno.
+- CORS: comunicación entre diferentes orígenes.
 
 ### Base de datos
-- MySQL 8: almacenamiento de la información.
 
-### Herramientas
+- MySQL 8.0: almacenamiento de usuarios y productos.
+
+### Servicios externos
+
+- Frankfurter API: consulta de tipos de cambio.
+
+### Herramientas de desarrollo
+
 - Visual Studio Code.
 - MySQL Workbench.
 - Postman.
-- Git y GitHub.
+- Google Chrome.
+- Git.
+- GitHub.
 
-## 4. Funcionalidades
+## 4. Arquitectura del sistema
 
-El sistema permite:
+La aplicación está organizada en cuatro elementos:
 
-1. Iniciar sesión con usuario y contraseña.
-2. Consultar los productos registrados.
-3. Registrar productos nuevos.
-4. Modificar productos existentes.
-5. Eliminar productos previa confirmación.
-6. Proteger las operaciones de modificación mediante JWT.
-7. Cerrar sesión desde la interfaz web.
+1. Frontend: interfaz gráfica desarrollada con React.
+2. Backend: servidor desarrollado con Node.js y Express.
+3. Base de datos: almacenamiento mediante MySQL.
+4. API externa: consulta de tipos de cambio.
 
-## 5. Estructura del proyecto
+Flujo de comunicación:
 
-autokimia-inventario/
-  backend/
-    config/
-      db.js
-    controllers/
-      authController.js
-      productosController.js
-    middleware/
-      verificarToken.js
-    routes/
-      authRoutes.js
-      productosRoutes.js
-    server.js
+    Usuario
+       |
+    Frontend React
+       |
+    API REST - Node.js y Express
+       |
+       +-------- MySQL
+       |
+       +-------- Frankfurter API
 
-  frontend/
-    index.html
-    styles.css
-    script.js
+El frontend envía solicitudes HTTP al backend.
 
-  package.json
-  package-lock.json
-  .gitignore
-  README.md
+El backend verifica los permisos del usuario,
+valida los datos, realiza las operaciones necesarias
+y devuelve los resultados en formato JSON.
 
-## 6. Base de datos
+## 5. Funcionalidades principales
 
-La aplicación utiliza la base de datos:
-
-autokimia_inventario
-
-Contiene las siguientes tablas:
-
-### productos
-Almacena la información del inventario.
-
-Campos:
-- id
-- nombre
-- descripcion
-- cantidad
-- precio
-
-### usuarios
-Almacena la información de autenticación.
-
-Campos:
-- id
-- nombre_usuario
-- password_hash
-
-Las contraseñas se almacenan utilizando bcryptjs.
-
-## 7. API REST
-
-El backend proporciona las siguientes rutas:
-
-GET /api/productos
-Consultar productos registrados.
-
-POST /api/productos
-Registrar un producto nuevo. Requiere JWT.
-
-PUT /api/productos/:id
-Modificar un producto existente. Requiere JWT.
-
-DELETE /api/productos/:id
-Eliminar un producto. Requiere JWT.
-
-POST /api/auth/registro
-Registrar un usuario.
-
-POST /api/auth/login
-Iniciar sesión y obtener un JWT.
-
-## 8. Instalación y ejecución local
-
-Requisitos:
-- Node.js y npm instalados.
-- MySQL Server disponible.
-- Base de datos y tablas configuradas.
-
-Pasos:
-
-1. Descargar el proyecto.
-2. Abrir la carpeta principal en Visual Studio Code.
-3. Abrir una terminal.
-4. Ejecutar:
-
-   npm.cmd install
-
-5. Configurar el archivo .env con los datos locales
-   de conexión y la clave secreta JWT.
-
-6. Preparar la base de datos autokimia_inventario
-   y sus tablas en MySQL.
-
-7. Iniciar el servidor:
-
-   node backend/server.js
-
-8. Abrir en el navegador:
-
-   http://localhost:3000
-
-Nota: la configuración de MySQL y el archivo .env
-deben prepararse antes de ejecutar la aplicación.
-
-## 9. Seguridad
-
-La aplicación utiliza:
-
-- Contraseñas protegidas con bcryptjs.
-- Tokens JWT para autenticación.
-- Middleware para proteger rutas.
-- Validación de datos en el backend.
-- Variables de entorno para datos privados.
-
-El archivo .env no debe publicarse en GitHub.
-
-El cierre de sesión elimina el token del frontend,
-pero no revoca anticipadamente un token ya emitido.
-
-## 10. Pruebas realizadas
-
-Se realizaron pruebas utilizando Postman,
-Google Chrome y MySQL Workbench.
-
-Se comprobó el funcionamiento de:
-
-- Conexión del servidor con MySQL.
-- Registro de usuarios.
-- Inicio de sesión con JWT.
+- Inicio de sesión.
+- Cierre de sesión.
+- Registro de usuarios mediante la API.
+- Autenticación mediante JWT.
+- Control de acceso por roles.
 - Registro de productos.
 - Consulta de productos.
-- Actualización de productos.
-- Eliminación de productos.
-- Rechazo de solicitudes sin JWT.
-- Cierre de sesión desde la página web.
+- Modificación de productos.
+- Eliminación previa confirmación.
+- Cancelación de modificaciones.
+- Validación de formularios.
+- Búsqueda por nombre.
+- Filtrado por precio mínimo y máximo.
+- Paginación de resultados.
+- Selección de productos por página.
+- Conversión de precios a USD y EUR.
+- Consulta de tipos de cambio externos.
+- Manejo de errores.
+- Interfaz adaptable a dispositivos móviles.
 
-## 11. Estado del proyecto
+## 6. Roles y permisos
 
-Las funcionalidades principales de la aplicación
-están implementadas y se han realizado pruebas
-de funcionamiento.
+| Funcionalidad | Administrador | Usuario |
+|---|---|---|
+| Iniciar sesión | Sí | Sí |
+| Consultar productos | Sí | Sí |
+| Buscar productos | Sí | Sí |
+| Filtrar productos | Sí | Sí |
+| Utilizar paginación | Sí | Sí |
+| Cambiar moneda | Sí | Sí |
+| Registrar productos | Sí | No |
+| Modificar productos | Sí | No |
+| Eliminar productos | Sí | No |
+| Cerrar sesión | Sí | Sí |
 
-El proyecto se encuentra en etapa de documentación
-y preparación de la entrega académica.
+El administrador tiene permisos para gestionar
+los productos del inventario.
+
+El usuario normal tiene acceso de solo consulta.
+
+Los nuevos usuarios reciben el rol usuario de
+manera predeterminada.
+
+## 7. Estructura del proyecto
+
+    autokimia-inventario/
+    |
+    |-- backend/
+    |   |-- config/
+    |   |   |-- db.js
+    |   |-- controllers/
+    |   |   |-- authController.js
+    |   |   |-- productosController.js
+    |   |   |-- monedasController.js
+    |   |-- middleware/
+    |   |   |-- verificarToken.js
+    |   |   |-- verificarRol.js
+    |   |   |-- validarProducto.js
+    |   |   |-- validarConsulta.js
+    |   |   |-- validarId.js
+    |   |   |-- manejarErrores.js
+    |   |-- routes/
+    |   |   |-- authRoutes.js
+    |   |   |-- productosRoutes.js
+    |   |   |-- monedasRoutes.js
+    |   |-- services/
+    |   |   |-- tipoCambioService.js
+    |   |-- server.js
+    |
+    |-- database/
+    |   |-- autokimia_inventario.sql
+    |
+    |-- frontend/
+    |   |-- index.html
+    |   |-- styles.css
+    |   |-- script.js
+    |
+    |-- frontend-react/
+    |   |-- public/
+    |   |-- src/
+    |   |   |-- components/
+    |   |   |   |-- Encabezado.jsx
+    |   |   |   |-- FiltrosProductos.jsx
+    |   |   |   |-- FormularioProducto.jsx
+    |   |   |   |-- Paginacion.jsx
+    |   |   |   |-- SelectorMoneda.jsx
+    |   |   |   |-- TablaProductos.jsx
+    |   |   |-- pages/
+    |   |   |   |-- Login.jsx
+    |   |   |   |-- Inventario.jsx
+    |   |   |-- services/
+    |   |   |   |-- api.js
+    |   |   |   |-- jwt.js
+    |   |   |-- App.jsx
+    |   |   |-- App.css
+    |   |   |-- index.css
+    |   |   |-- main.jsx
+    |   |-- .env.example
+    |   |-- package.json
+    |   |-- package-lock.json
+    |   |-- vite.config.js
+    |
+    |-- .env.example
+    |-- .gitignore
+    |-- package.json
+    |-- package-lock.json
+    |-- README.md
+
+La carpeta frontend contiene la versión original
+desarrollada con HTML, CSS y JavaScript.
+
+La carpeta frontend-react contiene la nueva
+interfaz gráfica del proyecto final.
+
+## 8. Base de datos
+
+Nombre de la base de datos:
+
+    autokimia_inventario
+
+### Tabla productos
+
+| Campo | Tipo de dato | Descripción |
+|---|---|---|
+| id | INT | Identificador único |
+| nombre | VARCHAR(100) | Nombre del producto |
+| descripcion | VARCHAR(255) | Descripción |
+| cantidad | INT | Existencias |
+| precio | DECIMAL(10,2) | Precio en MXN |
+
+### Tabla usuarios
+
+| Campo | Tipo de dato | Descripción |
+|---|---|---|
+| id | INT | Identificador único |
+| nombre_usuario | VARCHAR(50) | Nombre de usuario |
+| password_hash | VARCHAR(255) | Hash de contraseña |
+| rol | ENUM | admin o usuario |
+
+Las contraseñas se almacenan como hashes mediante
+bcryptjs, utilizando un factor de costo de 12.
+
+Los precios originales se almacenan en pesos
+mexicanos.
+
+El archivo de instalación de la base de datos se
+encuentra en:
+
+    database/autokimia_inventario.sql
+
+El script crea la base de datos y sus tablas sin
+incluir registros confidenciales ni instrucciones
+para eliminar tablas existentes.
+
+Está diseñado para instalaciones nuevas y no
+actualiza automáticamente tablas existentes.
+
+## 9. API REST
+
+REST: Representational State Transfer.
+
+La API utiliza los métodos HTTP GET, POST, PUT
+y DELETE.
+
+### Rutas de autenticación
+
+| Método | Ruta | Función |
+|---|---|---|
+| POST | /api/auth/registro | Registrar usuario |
+| POST | /api/auth/login | Iniciar sesión |
+
+### Rutas de productos
+
+| Método | Ruta | Función | Permiso |
+|---|---|---|---|
+| GET | /api/productos | Consultar productos | Autenticado |
+| POST | /api/productos | Registrar producto | Administrador |
+| PUT | /api/productos/:id | Modificar producto | Administrador |
+| DELETE | /api/productos/:id | Eliminar producto | Administrador |
+
+### Rutas de monedas
+
+| Método | Ruta | Función |
+|---|---|---|
+| GET | /api/monedas | Consultar tipos de cambio |
+| GET | /api/monedas/productos | Consultar precios convertidos |
+
+Las rutas protegidas requieren el encabezado:
+
+    Authorization: Bearer TOKEN_JWT
+
+### Parámetros de búsqueda
+
+- nombre
+- precioMin
+- precioMax
+- pagina
+- limite
+
+Ejemplo de consulta:
+
+    GET /api/productos?nombre=Aceite
+
+Ejemplo de filtrado:
+
+    GET /api/productos?precioMin=200&precioMax=300
+
+Ejemplo de paginación:
+
+    GET /api/productos?pagina=1&limite=10
+
+Ejemplo de conversión:
+
+    GET /api/monedas/productos?moneda=USD
+
+## 10. Integración de la API externa
+
+El sistema utiliza Frankfurter API para consultar
+tipos de cambio de monedas.
+
+Sitio del proveedor:
+
+https://frankfurter.dev/
+
+Monedas disponibles en la interfaz:
+
+- MXN: peso mexicano.
+- USD: dólar estadounidense.
+- EUR: euro.
+
+Los precios originales permanecen almacenados en
+pesos mexicanos dentro de MySQL.
+
+La conversión se realiza únicamente para mostrar
+los precios en la moneda seleccionada.
+
+La interfaz muestra:
+
+- Moneda seleccionada.
+- Tipo de cambio.
+- Fecha de referencia.
+- Proveedor de información.
+
+Cuando ocurre un error al consultar el servicio
+externo, la aplicación muestra un mensaje y
+permite continuar trabajando en pesos mexicanos.
+
+## 11. Requisitos de instalación
+
+- Node.js compatible con la versión instalada de Vite.
+- npm.
+- MySQL Server 8.0.
+- MySQL Workbench.
+- Git.
+- Navegador web.
+- Conexión a Internet para consultar tipos de cambio.
+
+## 12. Instalación del proyecto
+
+### 12.1. Clonar el repositorio
+
+    git clone https://github.com/Netoman76/autokimia-inventario.git
+
+    cd autokimia-inventario
+
+Seleccionar la rama que contiene el proyecto final
+si todavía no está integrada en main.
+
+### 12.2. Instalar las dependencias del backend
+
+Desde la carpeta principal del proyecto:
+
+    npm.cmd ci
+
+### 12.3. Configurar la base de datos
+
+Abrir MySQL Workbench.
+
+Abrir y ejecutar el archivo:
+
+    database/autokimia_inventario.sql
+
+Utilizar este procedimiento para una instalación
+nueva de la base de datos.
+
+### 12.4. Configurar las variables del backend
+
+Crear el archivo .env a partir de .env.example.
+
+En PowerShell:
+
+    Copy-Item .env.example .env
+
+Configurar las siguientes variables:
+
+    PORT=3000
+    DB_HOST=localhost
+    DB_USER=usuario_mysql
+    DB_PASSWORD=contraseña_mysql
+    DB_NAME=autokimia_inventario
+    DB_PORT=3306
+    JWT_SECRET=clave_secreta_segura
+
+Los valores anteriores son únicamente ejemplos.
+
+Utilizar las credenciales reales de la instalación
+local de MySQL.
+
+Para generar una clave secreta aleatoria:
+
+    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+Copiar el resultado generado en JWT_SECRET.
+
+No compartir ni publicar el archivo .env.
+
+### 12.5. Instalar las dependencias del frontend
+
+    cd frontend-react
+
+    npm.cmd ci
+
+### 12.6. Configurar las variables del frontend
+
+Desde la carpeta frontend-react:
+
+    Copy-Item .env.example .env
+
+El archivo deberá contener:
+
+    VITE_API_URL=http://localhost:3000/api
+
+Esta variable indica la dirección del backend.
+
+Las variables VITE_ son accesibles desde el
+navegador y no deben contener secretos.
+
+## 13. Ejecución de la aplicación
+
+Es necesario utilizar dos terminales.
+
+### Terminal 1: Backend
+
+Desde la carpeta principal:
+
+    node backend/server.js
+
+Dirección del backend:
+
+    http://localhost:3000
+
+### Terminal 2: Frontend
+
+Desde la carpeta principal:
+
+    cd frontend-react
+
+    npm.cmd run dev
+
+Dirección del frontend:
+
+    http://localhost:5173
+
+Abrir la dirección del frontend en el navegador.
+
+Ambos servidores deben permanecer funcionando
+mientras se utiliza la aplicación.
+
+## 14. Creación de usuarios iniciales
+
+El script SQL no incluye usuarios ni contraseñas.
+
+Para crear un usuario, utilizar Postman:
+
+Método:
+
+    POST
+
+Dirección:
+
+    http://localhost:3000/api/auth/registro
+
+Seleccionar Body, raw y JSON.
+
+Ejemplo de contenido:
+
+    {
+        "nombre_usuario": "admin",
+        "password": "SustituirPorUnaClaveSegura"
+    }
+
+Utilizar una contraseña propia y segura.
+
+El usuario se crea inicialmente con el rol usuario.
+
+Para asignar el rol administrador, un operador
+autorizado de la base de datos deberá ejecutar:
+
+    USE autokimia_inventario;
+
+    UPDATE usuarios
+    SET rol = 'admin'
+    WHERE nombre_usuario = 'admin';
+
+Para comprobar los usuarios y sus roles:
+
+    SELECT id, nombre_usuario, rol
+    FROM usuarios;
+
+Posteriormente, iniciar sesión desde la aplicación.
+
+Para crear un usuario de solo consulta, repetir
+el registro con otro nombre de usuario y una
+contraseña diferente, sin modificar su rol.
+
+## 15. Seguridad de la aplicación
+
+El sistema incorpora:
+
+- Autenticación mediante JWT.
+- Hash de contraseñas mediante bcryptjs.
+- Factor de costo bcrypt de 12.
+- Vigencia del token de una hora.
+- Control de acceso mediante roles.
+- Middleware de verificación de tokens.
+- Middleware de verificación de permisos.
+- Validación de datos en el frontend.
+- Validación de datos en el backend.
+- Consultas SQL parametrizadas.
+- Manejo centralizado de errores.
+- Confirmación antes de eliminar productos.
+- Variables de entorno para credenciales privadas.
+- Exclusión de archivos confidenciales mediante Git.
+
+Los archivos .env no se incluyen en el repositorio.
+
+El archivo .env.example contiene únicamente
+configuraciones de ejemplo.
+
+La aplicación está diseñada para fines académicos
+y ejecución local.
+
+Antes de utilizarla en producción se recomienda
+configurar HTTPS, restringir CORS, limitar intentos
+de autenticación y revisar la administración de
+sesiones y permisos.
+
+## 16. Pruebas realizadas
+
+Las pruebas se realizaron utilizando Postman,
+Google Chrome y MySQL Workbench.
+
+| Prueba | Resultado |
+|---|---|
+| Conexión con MySQL | Correcto |
+| Registro de usuarios | Correcto |
+| Inicio de sesión válido | Correcto |
+| Rechazo de contraseña incorrecta | Correcto |
+| Consulta de productos | Correcto |
+| Registro de productos | Correcto |
+| Modificación de productos | Correcto |
+| Cancelación de modificaciones | Correcto |
+| Eliminación de productos | Correcto |
+| Validación de campos obligatorios | Correcto |
+| Rechazo de cantidades negativas | Correcto |
+| Rechazo de precios negativos | Correcto |
+| Rechazo de cantidades decimales | Correcto |
+| Búsqueda por nombre | Correcto |
+| Filtrado por precio | Correcto |
+| Búsqueda sin resultados | Correcto |
+| Validación de rango de precios | Correcto |
+| Navegación entre páginas | Correcto |
+| Cambio de productos por página | Correcto |
+| Conversión de MXN a USD | Correcto |
+| Conversión de MXN a EUR | Correcto |
+| Regreso a precios en MXN | Correcto |
+| Paginación con moneda extranjera | Correcto |
+| Filtrado con moneda extranjera | Correcto |
+| Conservación de precios en MySQL | Correcto |
+| Interfaz de administrador | Correcto |
+| Interfaz de usuario de solo consulta | Correcto |
+| Manejo de errores de la API externa | Correcto |
+| Cierre de sesión | Correcto |
+| Compilación del frontend React | Correcto |
+
+Las operaciones de registro, modificación y
+eliminación de productos fueron comprobadas
+también directamente en MySQL Workbench.
+
+Las pruebas realizadas fueron principalmente
+manuales y funcionales.
+
+## 17. Compilación del frontend
+
+Desde la carpeta frontend-react:
+
+    npm.cmd run build
+
+Vite genera una versión optimizada de la aplicación
+dentro de la carpeta dist.
+
+Para visualizar la compilación localmente:
+
+    npm.cmd run preview
+
+El backend debe permanecer disponible para que
+las funcionalidades de la aplicación operen.
+
+## 18. Control de versiones
+
+El proyecto utiliza Git y GitHub para administrar
+las diferentes versiones del código fuente.
+
+Repositorio:
+
+https://github.com/Netoman76/autokimia-inventario
+
+Ramas de desarrollo:
+
+- main: rama principal.
+- proyecto-final: desarrollo del proyecto final.
+
+Se utilizan archivos .gitignore para excluir:
+
+- Variables de entorno privadas.
+- Dependencias node_modules.
+- Archivos de registro.
+- Archivos de configuración local.
+- Archivos de compilación dist.
+
+## 19. Conclusión
+
+El Sistema de Inventario Autokimia permitió aplicar
+los conocimientos adquiridos durante la materia
+Desarrollo Full Stack.
+
+Se implementó una aplicación web que integra una
+interfaz gráfica desarrollada con React, un backend
+con Node.js y Express, una base de datos MySQL y
+un servicio externo para consultar tipos de cambio.
+
+También se incorporaron mecanismos de autenticación,
+control de roles, validaciones, manejo de errores,
+búsqueda, filtrado y paginación.
+
+El proyecto demuestra la comunicación entre las
+diferentes capas de una aplicación Full Stack y
+la importancia de organizar el código mediante
+componentes reutilizables y servicios.
+
+## 20. Información académica
+
+Universidad: Tecmilenio.
+
+Carrera: Ingeniería en Desarrollo de Software.
+
+Materia: Desarrollo Full Stack.
+
+Entrega: Proyecto Final.
+
+Proyecto: Sistema de Inventario Autokimia.
+
+Año: 2026.

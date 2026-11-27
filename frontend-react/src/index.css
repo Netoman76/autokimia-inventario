@@ -1,0 +1,42 @@
+/*
+    Estilos generales de la aplicación
+    Sistema de Inventario Autokimia
+*/
+
+/* Configuración general de los elementos */
+* {
+    box-sizing: border-box;
+}
+
+/* Configuración del cuerpo de la página */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f0f3f8;
+    color: #333333;
+}
+
+/* Contenedor principal de React */
+#root {
+    min-height: 100vh;
+}
+
+/* Configuración general de los formularios */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 15px;
+}
+
+/* Cambiamos el cursor de los botones */
+button {
+    cursor: pointer;
+}
+
+/* Botones temporalmente deshabilitados */
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
