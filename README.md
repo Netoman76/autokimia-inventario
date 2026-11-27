@@ -747,3 +747,68 @@ conversión de monedas.
 
 La compilación de producción se realizó
 satisfactoriamente mediante Vite.
+## Pruebas automatizadas con Jest y Supertest
+
+### Objetivo
+
+Implementar pruebas automatizadas para comprobar el funcionamiento de la validación de datos y la protección de las rutas de la API REST del Sistema de Inventario Autokimia.
+
+### Herramientas utilizadas
+
+- Jest: framework para realizar pruebas automatizadas en JavaScript.
+- Supertest: biblioteca para realizar solicitudes HTTP y verificar las respuestas de una API REST.
+
+### Prueba unitaria
+
+Archivo: `validarProducto.test.js`
+
+Se comprobó que el middleware de validación rechaza los productos que contienen un precio negativo.
+
+El resultado esperado fue una respuesta HTTP 400 (Bad Request), impidiendo que la solicitud continúe hacia el controlador.
+
+Resultado: prueba aprobada.
+
+### Prueba funcional
+
+Archivo: `productos.test.js`
+
+Se realizó una solicitud GET a la ruta `/api/productos` sin proporcionar un token JWT.
+
+El resultado esperado fue una respuesta HTTP 401 (Unauthorized), impidiendo el acceso de usuarios no autenticados.
+
+Se utilizó un controlador simulado para evitar modificar o consultar la base de datos real.
+
+Resultado: prueba aprobada.
+
+### Ejecución de las pruebas
+
+Para ejecutar las pruebas automatizadas desde la carpeta principal del proyecto:
+
+```bash
+npm test
+```
+
+### Resultados obtenidos
+
+| Indicador | Resultado |
+|---|---|
+| Conjuntos de pruebas ejecutados | 2 |
+| Pruebas aprobadas | 2 |
+| Pruebas fallidas | 0 |
+| Tiempo de ejecución | 0.902 segundos |
+
+### Auditoría de dependencias
+
+Se realizó una auditoría de las dependencias mediante npm audit.
+
+No se detectaron vulnerabilidades en las dependencias del backend necesarias para producción al ejecutar npm audit --omit=dev.
+
+La auditoría completa reportó 18 vulnerabilidades moderadas relacionadas con dependencias de las herramientas de pruebas.
+
+Estas vulnerabilidades quedan registradas como un punto de mantenimiento pendiente.
+
+### Conclusión
+
+Las dos pruebas automatizadas permitieron comprobar que el sistema rechaza precios negativos e impide el acceso a la API de productos cuando no se proporciona un token JWT.
+
+Los resultados fueron satisfactorios para los casos evaluados, sin afectar la información almacenada en MySQL.
