@@ -1,123 +1,176 @@
-
 /*
-  Servidor principal del sistema de inventario Autokimia
-  Utilizaremos Node.js y Express.
+    Servidor principal del sistema de inventario Autokimia
+    Configuración para desarrollo local y producción
 */
 
-// Cargamos las variables de nuestro archivo .env
+// Cargamos las variables de entorno
 require("dotenv").config();
 
-// Importamos Express para crear nuestro servidor
+// Importamos las bibliotecas
 const express = require("express");
-
-// Importamos CORS para permitir solicitudes del frontend
 const cors = require("cors");
+const path = require("path");
 
-
-// Importamos nuestra configuración de MySQL----------------------
+// Importamos la conexión a MySQL
 const db = require("./config/db");
 
-// Importamos las rutas de productos------------------------------------
+// Importamos las rutas
 const productosRoutes = require("./routes/productosRoutes");
-
-// Importamos las rutas de autenticación de usuarios
 const authRoutes = require("./routes/authRoutes");
-
-// Importamos path para trabajar con rutas de carpetas
-const path = require("path");
+const monedasRoutes = require("./routes/monedasRoutes");
 
 // Importamos el middleware centralizado de errores
 const manejarErrores = require("./middleware/manejarErrores");
 
-// Importamos las rutas de monedas
-const monedasRoutes = require("./routes/monedasRoutes");
-
-
 // Creamos nuestra aplicación Express
 const app = express();
 
-// Permitimos solicitudes del frontend
-app.use(cors());
 
-// Permitimos que el servidor reciba datos en formato JSON
-app.use(express.json());
+// ============================================
+// CONFIGURACION DEL ENTORNO
+// ============================================
 
-// Todas las rutas de productos comenzarán con /api/productos--------------------
-app.use("/api/productos", productosRoutes);
+// Identificamos si estamos trabajando en producción
+const esProduccion = process.env.NODE_ENV === "production";
 
-// Todas las rutas de autenticación comienzan con /api/auth
-app.use("/api/auth", authRoutes);
-
-// Registramos las rutas de monedas
-app.use("/api/monedas", monedasRoutes);
-
-// Permitimos que Express muestre los archivos del frontend
-app.use(express.static(
-    path.join(__dirname, "../frontend")
-));
-
-
-
-
-// Obtenemos el puerto desde el archivo .env
+// Obtenemos el puerto del servidor
 const PORT = process.env.PORT || 3000;
 
-// Creamos una ruta para comprobar el funcionamiento
+// Permitimos solicitudes de otros orígenes en desarrollo
+if (!esProduccion) {
+
+    app.use(cors());
+
+}
+
+// Permitimos recibir datos en formato JSON
+app.use(express.json());
+
+
+// ============================================
+// RUTAS DE LA API REST
+// ============================================
+
+// Rutas de productos
+app.use("/api/productos", productosRoutes);
+
+// Rutas de autenticación
+app.use("/api/auth", authRoutes);
+
+// Rutas de conversión de monedas
+app.use("/api/monedas", monedasRoutes);
+
+
+// ============================================
+// VERIFICACION DEL SERVIDOR
+// ============================================
+
 app.get("/api/salud", (req, res) => {
 
-    // Enviamos una respuesta en formato JSON
     res.json({
         mensaje: "Servidor de Autokimia funcionando correctamente"
     });
 
 });
-//---------------------------------------------------------------------
-
-// Ruta temporal para probar la conexión a MySQL
-app.get("/api/db", async (req, res, next) => {
-
-    try {
-
-        // Consultamos el nombre de la base de datos activa
-        const [filas] = await db.query(
-            "SELECT DATABASE() AS baseDatos"
-        );
-
-        // Enviamos el resultado al navegador
-        res.json({
-            mensaje: "Conexion a MySQL correcta",
-            baseDatos: filas[0].baseDatos
-        });
-
-       } catch (error) {
-
-         // Enviamos el error al middleware centralizado
-         next(error);
-
-         }
-        });
-
-//---------------------------------------------------------------------
 
 
-// Middleware para rutas de API inexistentes
+// ============================================
+// VERIFICACION DE LA BASE DE DATOS
+// ============================================
+
+// Esta ruta de diagnóstico solamente funciona en desarrollo
+if (!esProduccion) {
+
+    app.get("/api/db", async (req, res, next) => {
+
+        try {
+
+            const [filas] = await db.query(
+                "SELECT DATABASE() AS baseDatos"
+            );
+
+            res.json({
+                mensaje: "Conexion a MySQL correcta",
+                baseDatos: filas[0].baseDatos
+            });
+
+        } catch (error) {
+
+            next(error);
+
+        }
+
+    });
+
+}
+
+
+// ============================================
+// CONTROL DE RUTAS API INEXISTENTES
+// ============================================
+
 app.use("/api", (req, res) => {
 
-    // Respondemos cuando la ruta solicitada no existe
     res.status(404).json({
         mensaje: "Ruta no encontrada"
     });
 
 });
 
-// Registramos el middleware centralizado de errores
+
+// ============================================
+// CONFIGURACION DEL FRONTEND
+// ============================================
+
+if (esProduccion) {
+
+    // Localizamos los archivos compilados de React
+    const rutaReact = path.join(
+        __dirname,
+        "../frontend-react/dist"
+    );
+
+    // Publicamos los archivos de React
+    app.use(express.static(rutaReact));
+
+    // Permitimos la navegación mediante React Router
+    app.get("/{*ruta}", (req, res) => {
+
+        res.sendFile(
+            path.join(rutaReact, "index.html")
+        );
+
+    });
+
+} else {
+
+    // Conservamos el frontend original para desarrollo local
+    app.use(express.static(
+        path.join(__dirname, "../frontend")
+    ));
+
+}
+
+
+// ============================================
+// MANEJO CENTRALIZADO DE ERRORES
+// ============================================
+
 app.use(manejarErrores);
 
 
-// Iniciamos nuestro servidor
-app.listen(PORT, () => {
+// ============================================
+// INICIAR EL SERVIDOR
+// ============================================
 
-    // Mostramos un mensaje en la terminal
-    console.log(`Servidor funcionando en http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+
+    console.log(
+        `Servidor funcionando en el puerto ${PORT}`
+    );
+
+    console.log(
+        `Entorno: ${esProduccion ? "Produccion" : "Desarrollo"}`
+    );
 
 });

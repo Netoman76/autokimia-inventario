@@ -22,8 +22,9 @@ const db = mysql.createPool({
     // Nombre de nuestra base de datos
     database: process.env.DB_NAME,
 
-    // Número de puerto utilizado por MySQL
-    port: 3306,
+      // Obtenemos el puerto de MySQL desde las variables de entorno
+    // Si no existe, utilizamos el puerto local 3306
+    port: Number(process.env.DB_PORT || 3306),
 
     // Esperamos si todas las conexiones están ocupadas
     waitForConnections: true,

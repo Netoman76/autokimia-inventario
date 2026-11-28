@@ -812,3 +812,86 @@ Estas vulnerabilidades quedan registradas como un punto de mantenimiento pendien
 Las dos pruebas automatizadas permitieron comprobar que el sistema rechaza precios negativos e impide el acceso a la API de productos cuando no se proporciona un token JWT.
 
 Los resultados fueron satisfactorios para los casos evaluados, sin afectar la información almacenada en MySQL.
+## Preparación del entorno de producción
+
+### Objetivo
+
+Preparar el Sistema de Inventario Autokimia para su
+despliegue en la nube mediante Railway, integrando
+el frontend de React y el backend de Express en
+un mismo servidor.
+
+### Modificaciones realizadas
+
+- Configuración de la API REST para utilizar rutas
+  relativas en producción.
+- Configuración del puerto de MySQL mediante
+  variables de entorno.
+- Integración del frontend compilado de React
+  con el servidor Express.
+- Compatibilidad con las rutas de React Router.
+- Configuración dinámica del puerto del servidor.
+- Incorporación de los comandos npm start y npm run build.
+- Deshabilitación de CORS abierto en producción.
+- Deshabilitación de la ruta de diagnóstico de MySQL
+  en producción.
+- Restricción del registro público de usuarios.
+
+### Compilación de la aplicación
+
+Desde la carpeta principal del proyecto:
+
+    npm install
+    npm run build
+
+Los archivos compilados se generan en:
+
+    frontend-react/dist/
+
+### Simulación local de producción
+
+Desde PowerShell:
+
+    $env:NODE_ENV = "production"
+    $env:PORT = "3000"
+    npm.cmd start
+
+La aplicación estará disponible en:
+
+    http://localhost:3000
+
+No es necesario ejecutar el servidor de Vite
+durante el funcionamiento en producción.
+
+### Pruebas realizadas
+
+| Prueba | Resultado |
+|---|---|
+| Compilación de React | Correcto |
+| Inicio de Express en producción | Correcto |
+| Inicio de sesión | Correcto |
+| Consulta de productos en MySQL | Correcto |
+| Conversión de monedas con Frankfurter | Correcto |
+| Navegación mediante React Router | Correcto |
+| Bloqueo del registro público con HTTP 403 | Correcto |
+| Pruebas automatizadas con Jest | 2 de 2 aprobadas |
+
+### Seguridad en producción
+
+Las credenciales de MySQL y la clave secreta JWT
+se configuran mediante variables de entorno.
+
+El archivo .env no se publica en GitHub.
+
+El registro público de usuarios se encuentra
+deshabilitado en producción.
+
+### Resultado
+
+La aplicación funciona correctamente en un entorno
+local de producción y se encuentra preparada para
+su despliegue en Railway.
+
+El frontend y el backend utilizan un mismo servidor,
+mientras que MySQL proporciona el almacenamiento
+persistente de la información.

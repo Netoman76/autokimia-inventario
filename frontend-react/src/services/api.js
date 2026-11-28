@@ -3,8 +3,10 @@
     Sistema de Inventario Autokimia
 */
 
-// Obtenemos la dirección de nuestra API
-const API_URL = import.meta.env.VITE_API_URL;
+// Configuramos la dirección de la API según el entorno
+const API_URL = import.meta.env.PROD
+    ? "/api"
+    : (import.meta.env.VITE_API_URL || "http://localhost:3000/api");
 
 
 // ============================================
