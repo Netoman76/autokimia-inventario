@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node backend/server.js",
+    "build": "npm ci --prefix frontend-react --include=dev && npm run build --prefix frontend-react"
   },
   "keywords": [],
   "author": "",
