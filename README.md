@@ -895,3 +895,111 @@ su despliegue en Railway.
 El frontend y el backend utilizan un mismo servidor,
 mientras que MySQL proporciona el almacenamiento
 persistente de la información.
+
+---
+
+## Despliegue final en la nube
+
+El Sistema de Inventario Autokimia fue desplegado en Railway como parte del proyecto final de la materia Desarrollo Full Stack de la Universidad Tecmilenio.
+
+### Información del despliegue
+
+- Plataforma de alojamiento: Railway.
+- Proyecto: lucid-charisma.
+- Entorno: production.
+- Rama de GitHub: main.
+- Frontend: React y Vite.
+- Backend: Node.js y Express.
+- Base de datos: MySQL.
+- Comunicación pública: HTTPS.
+- Comunicación con MySQL: red privada de Railway.
+- Autenticación: JWT.
+- Protección de contraseñas: bcryptjs.
+
+### Direcciones del proyecto
+
+Repositorio de GitHub:
+
+https://github.com/Netoman76/autokimia-inventario
+
+Aplicación en producción:
+
+https://autokimia-inventario-production.up.railway.app/login
+
+Verificación del servidor:
+
+https://autokimia-inventario-production.up.railway.app/api/salud
+
+### Arquitectura en producción
+
+El frontend desarrollado con React se compila mediante Vite. Los archivos generados se sirven desde el backend Express.
+
+El backend procesa las solicitudes de la API REST, valida los tokens JWT, verifica los permisos de los usuarios y establece la comunicación con la base de datos MySQL alojada en Railway.
+
+### Comandos de producción
+
+Compilación de la aplicación:
+
+```bash
+npm run build
+```
+
+Inicio del servidor:
+
+```bash
+npm start
+```
+
+Ejecución de pruebas automatizadas:
+
+```bash
+npm test
+```
+
+### Resultados de las pruebas
+
+| Prueba | Resultado |
+|---|---|
+| Compilación del frontend | Correcto |
+| Despliegue en Railway | Correcto |
+| Acceso mediante HTTPS | Correcto mediante VPN |
+| Inicio de sesión del administrador | Correcto |
+| Inicio de sesión del usuario normal | Correcto |
+| Registro de productos en producción | Correcto |
+| Consulta de productos | Correcto |
+| Almacenamiento en MySQL Railway | Correcto |
+| Conversión de monedas con Frankfurter | Correcto |
+| Conservación del precio original en MXN | Correcto |
+| Interfaz de solo consulta para usuario normal | Correcto |
+| Bloqueo de operaciones no autorizadas en backend local | Correcto |
+| Pruebas automatizadas con Jest y Supertest | 2 de 2 aprobadas |
+
+### Seguridad de la aplicación
+
+- Contraseñas protegidas mediante bcryptjs.
+- Autenticación mediante tokens JWT.
+- Control de acceso mediante roles.
+- Validación de los datos recibidos.
+- Consultas parametrizadas en MySQL.
+- Registro público de usuarios deshabilitado en producción.
+- Credenciales almacenadas en variables de entorno.
+- Archivo .env excluido del repositorio.
+- Comunicación privada entre el backend y MySQL.
+
+### Consideraciones y mantenimiento pendiente
+
+Durante las pruebas de producción se presentó un problema de conectividad directa hacia el dominio de Railway. Se utilizó una VPN en el navegador para acceder correctamente a la aplicación.
+
+La prueba adicional de permisos del backend mediante Postman en producción quedó pendiente debido a esta limitación de conectividad.
+
+Se recomienda realizar la rotación de las credenciales de conexión a MySQL como medida de mantenimiento de seguridad.
+
+El alojamiento depende de la disponibilidad de los créditos y del plan contratado en Railway.
+
+### Conclusión del proyecto
+
+Se desarrolló una aplicación Full Stack para la gestión de inventario de Autokimia, integrando una interfaz de usuario, un servidor de aplicaciones, una base de datos relacional, mecanismos de autenticación y una API externa para la conversión de monedas.
+
+El proyecto permitió aplicar los conocimientos adquiridos durante el curso, incluyendo desarrollo frontend, backend, bases de datos, seguridad, control de versiones, pruebas automatizadas y despliegue en la nube.
+
+Como resultado, se obtuvo una aplicación funcional desplegada en Railway y un repositorio documentado en GitHub que facilita el mantenimiento y futuras mejoras del sistema.
